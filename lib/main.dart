@@ -2,7 +2,30 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-void main() => runApp(AnimatedContainerApp());
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        body: BackgroundWithText(),
+      ),
+    );
+  }
+}
+
+class BackgroundWithText extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: <Widget>[
+        Positioned.fill(child: AnimatedContainerApp()),
+        Positioned.fill(child: CenteredText()),
+      ],
+    );
+  }
+}
 
 class AnimatedContainerApp extends StatefulWidget {
   @override
@@ -19,27 +42,36 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
         appBar: AppBar(
           title: Text('George Reva Flutter App'),
         ),
-        body: Center(
-          child: AnimatedContainer(
-            color: _color,
-            duration: Duration(seconds: 1),
-            child: GestureDetector(
-              onTap:() {
-                setState(() {
-                  final random = Random();
+        body: AnimatedContainer(
+          color: _color,
+          duration: Duration(seconds: 1),
+          curve: Curves.fastOutSlowIn,
+          child: GestureDetector(
+            onTap: () {
+              setState(() {
+                final random = Random();
 
-                  _color = Color.fromRGBO(
-                    random.nextInt(256),
-                    random.nextInt(256),
-                    random.nextInt(256),
-                    1,
-                  );
-                });
-              },
-            ),
+                _color = Color.fromRGBO(
+                  random.nextInt(256),
+                  random.nextInt(256),
+                  random.nextInt(256),
+                  1,
+                );
+              });
+            },
           ),
-        ) ,
+        ),
       ),
+    );
+  }
+}
+
+class CenteredText extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text("Hey there"),
     );
   }
 }
