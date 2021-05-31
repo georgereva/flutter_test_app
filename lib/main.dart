@@ -7,23 +7,7 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        body: BackgroundWithText(),
-      ),
-    );
-  }
-}
-
-class BackgroundWithText extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(child: AnimatedContainerApp()),
-        Positioned.fill(child: CenteredText()),
-      ],
-    );
+    return AnimatedContainerApp();
   }
 }
 
@@ -42,36 +26,32 @@ class _AnimatedContainerAppState extends State<AnimatedContainerApp> {
         appBar: AppBar(
           title: Text('George Reva Flutter App'),
         ),
-        body: AnimatedContainer(
-          color: _color,
-          duration: Duration(seconds: 1),
-          curve: Curves.fastOutSlowIn,
-          child: GestureDetector(
-            onTap: () {
-              setState(() {
-                final random = Random();
+        body: GestureDetector(
+          onTap: () {
+            setState(() {
+              final random = Random();
 
-                _color = Color.fromRGBO(
-                  random.nextInt(256),
-                  random.nextInt(256),
-                  random.nextInt(256),
-                  1,
-                );
-              });
-            },
+              _color = Color.fromRGBO(
+                random.nextInt(256),
+                random.nextInt(256),
+                random.nextInt(256),
+                1,
+              );
+            });
+          },
+          child: Center(
+            child: AnimatedContainer(
+              color: _color,
+              width: double.infinity,
+              height: double.infinity,
+              duration: Duration(seconds: 1),
+              curve: Curves.fastOutSlowIn,
+              alignment: Alignment.center,
+              child: Text("Hey there"),
+            ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class CenteredText extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text("Hey there"),
     );
   }
 }
